@@ -1,3 +1,5 @@
+:- module(cards, [card/2]).
+
 % card(V, S) is true if V is a valid card value and S is a valid suit
 card(V, S) :-
     number(V),
