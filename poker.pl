@@ -72,16 +72,3 @@ find_score([card(V1,S1),card(V2,S2),card(V3,S3),card(V4,S4),card(V5,S5)] , M):-
     findall(S, value([card(V1,S1),card(V2,S2),card(V3,S3),card(V4,S4),card(V5,S5)], S), R),
     max_list(R, M),
     valid_hand([card(V1,S1),card(V2,S2),card(V3,S3),card(V4,S4),card(V5,S5)]).
-
-%%%%%%%%%%%%%%%
-
-% Hand sorting helper makes it easier to recognize combos
-% https://stackoverflow.com/questions/11852226/sort-a-list-of-cards-prolog
-
-compare_values(D, card(A,_), card(B,_)) :-
-    nth0(X, [2, 3, 4, 5, 6, 7, 8, 9, 10, jack, queen, king, ace], A),
-    nth0(Y, [2, 3, 4, 5, 6, 7, 8, 9, 10, jack, queen, king, ace], B),
-    compare(D, X, Y).
-
-sort_cards(L, R) :-
-    predsort(compare_values, L, R).
