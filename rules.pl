@@ -50,6 +50,3 @@ value([card(A,_),card(A,_),card(A,_),_,_], 1).
 value([card(A,_),card(A,_),card(B,_),card(B,_),_], 1).
 value([_,card(A,_),card(A,_),card(B,_),card(B,_)], 1).
 value([card(A,_),card(A,_),_,card(B,_),card(B,_)], 1).
-
-% No Combo
-value(_, 0).
