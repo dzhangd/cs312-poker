@@ -38,11 +38,12 @@ keep(H, H) :-
 keep(H, H) :-
     value(H, 10).
 keep(H, H) :-
-    value(H, 10).
+    value(H, 4).
 keep(H, H) :-
-    value(H, 10).
+    value(H, 3).
 
 % Case: hand cannot result in points
+% TODO: This case eventually should be changed
 keep(H, []) :-
     \+ value(H, _).
 
