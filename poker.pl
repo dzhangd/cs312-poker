@@ -28,17 +28,56 @@ no_duplicate_cards([card(V, S)|T]) :-
 keep(H, K):-.
 
 
+%%%%%%%%%%%%%%%
 
 %!Rules
-% TODO: be able to parse a list into each type instead of a dumb string
+% Assume sorted hand
 
-value("royal straight flush" , 250).
-value("five of a kind", 60).
-value("straight flush", 25).
-value("four of a kind", 20).
-value("Full House", 10).
-value("Flush", 4).
-value("Straight", 3).
-value("Three of a Kind", 1).
-value("Two Pairs", 1).
-value("No Combo", 0).
+% Royal Straight Flush : 250pt
+value([card(10,X),card(jack,X),card(queen,X),card(king,X),card(ace,X)], 250).
+
+% Five of a Kind: 60pt 
+% TODO: only if we decide to use jokers
+
+% Straight Flush: 25pt
+% TODO: determine if its a straight
+
+% Four of a Kind : 20pt
+value([_,card(A,_),card(A,_),card(A,_),card(A,_)], 20).
+value([card(A,_),card(A,_),card(A,_),card(A,_),_], 20).
+
+% Full House : 10 pt
+value([card(A,_),card(A,_),card(A,_),card(B,_),card(B,_)], 10).
+value([card(A,_),card(A,_),card(B,_),card(B,_),card(B,_)], 10).
+
+% Flush : 4pt
+value([card(_,X),card(_,X),card(_,X),card(_,X),card(_,X)], 4).
+
+% Straight : 3pt
+% TODO: how do we determine if its a straight
+
+% Three of a Kind : 1pt
+value([_,card(A,_),card(A,_),card(A,_),_], 1).
+value([_,_,card(A,_),card(A,_),card(A,_)], 1).
+value([card(A,_),card(A,_),card(A,_),_,_], 1).
+
+% Two Pairs : 1pt
+value([card(A,_),card(A,_),card(B,_),card(B,_),_], 1).
+value([_,card(A,_),card(A,_),card(B,_),card(B,_)], 1).
+value([card(A,_),card(A,_),_,card(B,_),card(B,_)], 1).
+
+% No Combo
+value(_, 0).
+
+%%%%%%%%%%%%
+
+% Hand sorting makes it easier to recognize combos
+% https://stackoverflow.com/questions/11852226/sort-a-list-of-cards-prolog
+
+compare_values(D, card(A,_), card(B,_)) :-
+    nth0(X, [2, 3, 4, 5, 6, 7, 8, 9, 10, jack, queen, king, ace], A),
+    nth0(Y, [2, 3, 4, 5, 6, 7, 8, 9, 10, jack, queen, king, ace], B),
+    compare(D, X, Y).
+
+sort_cards(L, R) :-
+    predsort(compare_values, L, R).
