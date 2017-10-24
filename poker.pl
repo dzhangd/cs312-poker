@@ -8,9 +8,8 @@ poker(H, K):-
     keep(H, K).
 
 % valid_hand(H) is only true if there is a valid hand
-valid_hand([H|T]):-
-    \+ duplicates([H|T]),
-    card(H).
+valid_hand([card(V, S)|T]):-
+    \+ duplicates([H|T]).
 
 % keep(H, K) finds the best cards to keep K from hand H
 % TODO: how do we do this
@@ -32,7 +31,3 @@ value("Straight", 3).
 value("Three of a Kind", 1).
 value("Two Pairs", 1).
 value("No Combo", 0).
-
-%!Card defs
-
-card(ace, spades).
