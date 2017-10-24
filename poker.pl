@@ -21,26 +21,28 @@ no_duplicate_cards([]).
 no_duplicate_cards([card(V, S)|T]) :-
 	\+ member(card(V, S), T),
 	no_duplicate_cards(T).
-    
+
 % keep(H, K) finds the best cards to keep K from hand H
 % TODO: how do we do this
 
-keep(H, K):-.
+keep(H, K).
 
 
 %%%%%%%%%%%%%%%
 
-%!Rules
+% Rules
 % Assume sorted hand
 
 % Royal Straight Flush : 250pt
 value([card(10,X),card(jack,X),card(queen,X),card(king,X),card(ace,X)], 250).
 
-% Five of a Kind: 60pt 
+% Five of a Kind: 60pt
 % TODO: only if we decide to use jokers
 
 % Straight Flush: 25pt
-% TODO: determine if its a straight
+value(H, 25):-
+    value(H, 4),
+    value(H, 3).
 
 % Four of a Kind : 20pt
 value([_,card(A,_),card(A,_),card(A,_),card(A,_)], 20).
@@ -54,7 +56,20 @@ value([card(A,_),card(A,_),card(B,_),card(B,_),card(B,_)], 10).
 value([card(_,X),card(_,X),card(_,X),card(_,X),card(_,X)], 4).
 
 % Straight : 3pt
-% TODO: how do we determine if its a straight
+% TODO: Is there a better way to find a circular sequence
+value([card(2,_),_,_,_,card(6,_)], 3).
+value([card(3,_),_,_,_,card(7,_)], 3).
+value([card(4,_),_,_,_,card(8,_)], 3).
+value([card(5,_),_,_,_,card(9,_)], 3).
+value([card(6,_),_,_,_,card(10,_)], 3).
+value([card(7,_),_,_,_,card(jack,_)], 3).
+value([card(8,_),_,_,_,card(queen,_)], 3).
+value([card(9,_),_,_,_,card(king,_)], 3).
+value([card(10,_),_,_,_,card(ace,_)], 3).
+value([card(2,_),card(jack,_),_,_,card(ace,_)], 3).
+value([card(2,_),card(3,_),card(queen,_),_,card(ace,_)], 3).
+value([card(2,_),card(3,_),card(4,_),card(king,_),card(ace,_)], 3).
+
 
 % Three of a Kind : 1pt
 value([_,card(A,_),card(A,_),card(A,_),_], 1).
