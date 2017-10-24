@@ -2,10 +2,7 @@
 
 % card(V, S) is true if V is a valid card value and S is a valid suit
 card(V, S) :-
-    between(2, 10, V),
-    valid_suit(S).
-card(V, S) :-
- member(V, [ace, jack, queen, king]),
+ member(V, [ace, jack, queen, king, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
  valid_suit(S).
 
 valid_suit(S) :-
