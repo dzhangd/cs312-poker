@@ -51,12 +51,14 @@ keep(H, []) :-
 % poker([card(ace, spades), card(10, clubs), card(7, spades), card(queen, spades), card(5, diamonds)], K).
 % K = [].
 
+%%%%%%%%%%%%%%%
 
-% explore_hands (H, L) is true when H is a valid hand
-% and L is a list of all possible scores > 0 from that hand
+% explore_hands (H, S) is true when H is a valid hand
+% and S is a sum of all possible scores > 0 from that hand
 
-explore_hands(H, L):-
-    findall(S, find_score(H, S), L).
+explore_hands(H, S):-
+    findall(S, find_score(H, S), L),
+    sum_list(L, S).
 
 % find_score(H, M) is true when H is a valid hand a M is the highest
 % combo score that can result from that hand
