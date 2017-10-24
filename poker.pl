@@ -4,19 +4,19 @@
 % cards to keep from H in order to maximize your win
 % TODO: Actually make it
 poker(H, K):-
-    valid_hand(C),
-    find_best_combo(H, C),
-    common(H, C, K).
+    valid_hand(H),
+    keep(H, K).
 
 % valid_hand(H) is only true if there is a valid hand
 valid_hand([H|T]):-
     \+ duplicates([H|T]),
-    valid_card(T).
+    card(H).
 
-% common(H, C, K) returns the common cards K between H and C
+% keep(H, K) finds the best cards to keep K from hand H
+% TODO: how do we do this
 
-% find_best_combo(H, C) finds the best combo C from hand H
-% TODO: actually do it
+keep(H, K):-.
+
 
 
 %!Rules
@@ -33,4 +33,6 @@ value("Three of a Kind", 1).
 value("Two Pairs", 1).
 value("No Combo", 0).
 
+%!Card defs
 
+card(ace, spades).
