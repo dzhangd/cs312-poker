@@ -27,6 +27,7 @@ no_duplicate_cards([card(V, S)|T]) :-
 
 %%%%%%%%%%%%%%%
 
+
 % keep(H, K) finds the best cards to keep K from hand H
 % TODO: how do we do this
 
@@ -49,6 +50,26 @@ keep(H, []) :-
 
 % poker([card(ace, spades), card(10, clubs), card(7, spades), card(queen, spades), card(5, diamonds)], K).
 % K = [].
+
+
+% explore_hands (H, L) is true when H is a valid hand
+% and L is a list of all possible scores > 0 from that hand
+
+explore_hands(H, L):-
+    findall(S, find_score(H, S), L).
+
+% find_score(H, M) is true when H is a valid hand a M is the highest
+% combo score that can result from that hand
+
+find_score([card(V1,S1),card(V2,S2),card(V3,S3),card(V4,S4),card(V5,S5)] , M):-
+    card(V1, S1),
+    card(V2, S2),
+    card(V3, S3),
+    card(V4, S4),
+    card(V5, S5),
+    findall(S, value([card(V1,S1),card(V2,S2),card(V3,S3),card(V4,S4),card(V5,S5)], S), R),
+    max_list(R, M),
+    valid_hand([card(V1,S1),card(V2,S2),card(V3,S3),card(V4,S4),card(V5,S5)]).
 
 %%%%%%%%%%%%%%%
 
