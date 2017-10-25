@@ -58,8 +58,8 @@ best_replacement(H, Best_hand, Max_weight) :-
 	possible_hands(H, Hands),
 	best_replacement_helper(Hands, Best_hand, Max_weight).
 
-best_replacement_helper([[First_hand| _]|T], Best_hand, Max_weight) :-
-	best_replacement_helper(T, First_hand, Best_hand, -1.0Inf, Max_weight).
+best_replacement_helper(Hands, Best_hand, Max_weight) :-
+	best_replacement_helper(Hands, _, Best_hand, -1.0Inf, Max_weight).
 
 best_replacement_helper([], Best_hand, Best_hand, Max_weight, Max_weight).
 best_replacement_helper([[Hand| Search_space]|T], Hand0, Best_hand, Max0, Max_weight) :-
