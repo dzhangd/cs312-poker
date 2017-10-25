@@ -95,8 +95,10 @@ average(List, Average) :- sum_list(List, Sum),
 
 % poker([card(10, spades), card(jack, spades), card(queen, spades), card(king, spades), card(3, hearts)], S, W).
 
+% should keep the 4 of spades because getting a flush is more likely
+% than going for a royal straight flush
 % poker([card(10, spades), card(jack, spades), card(queen,spades),card(4, spades), card(3, hearts)], S, W).
 
 % poker([card(4, hearts), card(jack, spades),card(queen,spades),card(king, spades), card(ace, spades)], S, W).
 
-% bad types
+% poker([card(10, spades), card(jack, spades), card(queen,spades),card(4, hearts), card(3, hearts)], S, W).
