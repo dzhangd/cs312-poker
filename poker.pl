@@ -6,11 +6,13 @@
 
 % ! Poker (H, K) where H is a list of 5 cards and K is a list of =< 5
 % cards to keep from H in order to maximize your win
-%
+
 poker(H, K, W):-
     valid_hand(H),
     best_replacement(H, K, W).
 
+%%%%%%%%%%%%%%%
+%Hand Validation
 %%%%%%%%%%%%%%%
 
 % valid_hand(H) is true when H is a valid hand of cards
@@ -26,34 +28,11 @@ no_duplicate_cards([card(V, S)|T]) :-
 	\+ member(card(V, S), T),
 	no_duplicate_cards(T).
 
-%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%
 
-
-% keep(H, K) finds the best cards to keep K from hand H
-% TODO: how do we do this
-
-% Case: all 5 cards already result in a combo
-keep(H, H) :-
-    value(H, 250).
-keep(H, H) :-
-    value(H, 25).
-keep(H, H) :-
-    value(H, 10).
-keep(H, H) :-
-    value(H, 4).
-keep(H, H) :-
-    value(H, 3).
-
-% Case: hand cannot result in points
-% TODO: This case eventually should be changed
-keep(H, []) :-
-    \+ value(H, _).
-
-% poker([card(ace, spades), card(10, clubs), card(7, spades), card(queen, spades), card(5, diamonds)], K).
-% K = [].
-
-%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%
+%Replacement Finder
+%%%%%%%%%%%%%%%%%%%
 best_replacement(H, Best_hand, Max_weight) :-
 	possible_hands(H, Hands),
 	best_replacement_helper(Hands, Best_hand, Max_weight).
@@ -70,6 +49,12 @@ best_replacement_helper([[Hand| Search_space]|T], Hand0, Best_hand, Max0, Max_we
 		; best_replacement_helper(T, Hand0, Best_hand, Max0, Max_weight)
 	).
 
+%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%
+%Hand Exploration
+%%%%%%%%%%%%%%%%%%
 % explore_hands (H, S) is true when H is a valid hand
 % and S is a sum of all possible scores > 0 from that hand
 
@@ -97,3 +82,5 @@ average([], 0).
 average(List, Average) :- sum_list(List, Sum),
                           length(List, Count),
                           Average is Sum/Count.
+
+%%%%%%%%%%%%%%%%
