@@ -84,3 +84,19 @@ average(List, Average) :- sum_list(List, Sum),
                           Average is Sum/Count.
 
 %%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%
+% Test Cases
+%%%%%%%%%%%%%%
+
+% general functionality
+
+% poker([card(10, spades), card(jack, spades), card(queen, spades),card(king, spades), card(ace, spades)], S, W).
+
+% poker([card(10, spades), card(jack, spades), card(queen, spades), card(king, spades), card(3, hearts)], S, W).
+
+% poker([card(10, spades), card(jack, spades), card(queen,spades),card(4, spades), card(3, hearts)], S, W).
+
+% poker([card(4, hearts), card(jack, spades),card(queen,spades),card(king, spades), card(ace, spades)], S, W).
+
+% bad types
