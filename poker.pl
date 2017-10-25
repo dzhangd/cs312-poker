@@ -1,14 +1,15 @@
 :- use_module(cards).
 :- use_module(rules).
+:- use_module(possible_hands).
 
 %% Modified Poker-style game
 
 % ! Poker (H, K) where H is a list of 5 cards and K is a list of =< 5
 % cards to keep from H in order to maximize your win
 %
-poker(H, K):-
+poker(H, K, W):-
     valid_hand(H),
-    keep(H, K).
+    best_replacement(H, K, W).
 
 %%%%%%%%%%%%%%%
 
@@ -53,6 +54,22 @@ keep(H, []) :-
 
 %%%%%%%%%%%%%%%
 
+best_replacement(H, Best_hand, Max_weight) :-
+	possible_hands(H, Hands),
+	best_replacement_helper(Hands, Best_hand, Max_weight).
+
+best_replacement_helper([[First_hand| _]|T], Best_hand, Max_weight) :-
+	best_replacement_helper(T, First_hand, Best_hand, -1.0Inf, Max_weight).
+
+best_replacement_helper([], Best_hand, Best_hand, Max_weight, Max_weight).
+best_replacement_helper([[Hand| Search_space]|T], Hand0, Best_hand, Max0, Max_weight) :-
+	explore_hands(Hand, Sum),
+	Weight is Sum / Search_space,
+	(Weight > Max0 ->
+		best_replacement_helper(T, Hand, Best_hand, Weight, Max_weight)
+		; best_replacement_helper(T, Hand0, Best_hand, Max0, Max_weight)
+	).
+
 % explore_hands (H, S) is true when H is a valid hand
 % and S is a sum of all possible scores > 0 from that hand
 
@@ -72,3 +89,11 @@ find_score([card(V1,S1),card(V2,S2),card(V3,S3),card(V4,S4),card(V5,S5)] , M):-
     findall(S, value([card(V1,S1),card(V2,S2),card(V3,S3),card(V4,S4),card(V5,S5)], S), R),
     max_list(R, M),
     valid_hand([card(V1,S1),card(V2,S2),card(V3,S3),card(V4,S4),card(V5,S5)]).
+
+max([], 0).
+max(L, M) :- max_list(L, M).
+
+average([], 0).
+average(List, Average) :- sum_list(List, Sum),
+                          length(List, Count),
+                          Average is Sum/Count.
